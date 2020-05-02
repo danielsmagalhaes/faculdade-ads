@@ -1,45 +1,59 @@
 from datetime import date
+dataAtual = date.today()
 
-data_atual = date.today()
+def obterLimite():
+    nomeVendedor = 'Daniel Sampaio Magalhães'
+    print ('\n\nOlá, está é a Nemesis Store! Seja bem-vindo! Me chamo', nomeVendedor, 'e vou te ajudar hoje.')
+    print ('Vamos precisar de alguns dados seu para realizar sua análise de crédito, tudo bem?')
+    cargoAtual = input ('\nPara comerçarmos, qual seu cargo na empresa em que trabalha atualmente? ')
+    salarioAtual = float(input ('Humm, certo! e qual seu salário? '))
+    anoNascimento = int(input ('E por último, qual o ano em que você nasceu? (ex: 1900): '))
+    print ('\nVamos ver se está tudo certo, ok?')
+    print ('\nSeu cargo atual é: ', cargoAtual, '\nSeu salário é de: ', salarioAtual, '\nVocê nasceu em: ', anoNascimento)
+    anoAtual = dataAtual.year
+    idadeCliente = anoAtual - int(anoNascimento)
+    print ('Sua idade é:', idadeCliente, 'anos')
+    limiteCliente = (salarioAtual * (idadeCliente / 1000)) + 100
+    print ('\nSegundo nosso sistema, você poderá gastar em nossa loja R$', limiteCliente)
+    
+    return limiteCliente, nomeVendedor, idadeCliente
 
-# Etapa 1
-print ('\n\nOlá, esta é a Saldão Store! Seja bem-vindo! Aqui quem fala é Daniel Sampaio Magalhães')
-print ('Vamos precisar de alguns dados seu para realizar sua análise de crédito, tudo bem?\n')
+def verificarProduto(obterLimite):
 
-cargo = input ('Para comerçarmos, qual seu cargo na empresa em que trabalha atualmente? ')
-salario = float(input ('Humm, certo! e qual seu salário atual? '))
-ano = input('E por último, qual o ano em que você nasceu? (4 digitios): ')
+    itens = int(input('Quantos produtos gostaria de comprar? '))
+    precoTotal = 0
+    for n in range(itens):
 
-print ('\nÓtimo! Vamos ver se está tudo certo, ok?')
+        print('\n=== Produto {} ==='.format(n + 1))
+        produto = input('Qual o produto que você quer comprar? ')
+        preco = float(input('E qual seu valor do {}? '.format(produto)))
 
-print ('\nSeu cargo atual é:', cargo,', seu salário é de', salario, 'e você nasceu em', ano, '.')
+        precoTotal = precoTotal + preco
 
-# Etapa 2
-anoAtual = data_atual.year
-idade = anoAtual - int(ano)
-print ('Sua idade é:' ,idade, 'anos')
-limite = (salario * (idade / 1000)) + 100
-print ('\nSegundo nosso sistema, você poderá gastar em nossa loja R$', limite)
+        print ('Resta R$', limiteCliente - precoTotal, 'do seu limte.')
 
-# Epata 3
-produto = input('\nPor favor, nos diga qual o produto que você quer comprar? ')
-preco = float(input('E qual seu valor? '))
+    print()
+    
+    if precoTotal <= limiteCliente * 0.60:
+        print('Liberado!')
+    elif precoTotal > limiteCliente * 0.60 and precoTotal <= limiteCliente * 0.90:
+        print('Liberado ao parcelar em até 2 vezes.')
+    elif precoTotal > limiteCliente * 0.90 and precoTotal <= limiteCliente * 100:
+        print('Liberado ao parcelar em 3 ou mais vezes.')
+    else:
+        print('Bloqueado, escolha um produto de menor valor.')
+    
+    quantidadeLetrasNome = len(nomeVendedor)
+    if precoTotal <= quantidadeLetrasNome or precoTotal <= idadeCliente:
+        print('\nParabéns, você ganhou um desconto de 6%!')
+        print('O valor a ser pago já com o desconto é: R$', precoTotal - precoTotal * 0.06)
+        print('\n\nObrigado, volte sempre!\n\n')
+    else:
+        print('\n\nObrigado, volte sempre!\n\n')
 
-print()
+    return precoTotal
 
-if preco <= (limite * 0.60):
-    print('Liberado!')
-elif preco > (limite * 0.60) and preco <= (limite * 0.90):
-    print('Liberado ao parcelar em até 2 vezes.')
-elif preco > (limite * 0.90) and preco <= (limite * 100):
-    print('Liberado ao parcelar em 3 ou mais vezes.')
-else:
-    print('Bloqueado.')
-    print('Escolha um produto de menor valor.')
 
-if preco <= 24 or preco <= idade:
-    print('Parabéns, você ganhou um desconto de 6%!')
-    print('O valor a ser pago já com o desconto é: ', (preco - preco * 0.06))
-    print('\n\nObrigado, volte sempre!\n\n')
-else:
-    print('\n\nObrigado, volte sempre!\n\n')
+limiteCliente, nomeVendedor, idadeCliente = obterLimite()
+
+precoTotal = verificarProduto(obterLimite)
