@@ -22,9 +22,9 @@ def verificarProduto(obterLimite):
 
     itens = int(input('Quantos produtos gostaria de comprar? '))
     precoTotal = 0
-    for n in range(itens):
+    for quantidadeProduto in range(itens):
 
-        print('\n=== Produto {} ==='.format(n + 1))
+        print('\n=== Produto {} ==='.format(quantidadeProduto + 1))
         produto = input('Qual o produto que você quer comprar? ')
         preco = float(input('E qual seu valor do {}? '.format(produto)))
 
